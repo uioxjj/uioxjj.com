@@ -14,7 +14,7 @@
     </div>
     <div class="head">
       <div class="zi"><el-icon><Lollipop></Lollipop></el-icon>1</div>
-      <div class="more"><el-link icon="More">更多</el-link></div>
+      <div class="more"><el-link icon="More" href="#/more" style="font-size:25px" :underline="false">更多</el-link></div>
     </div>
     <div></div>
     <div class="bg">
@@ -39,6 +39,9 @@
 		</div>
     <div class="img">
       <el-image v-for="item in urls" :key="item" :src="item.url" style="width:20%;height:20%;border-radius: 5%;box-shadow: 2px 2px 10px #909090;" />
+    </div>
+    <div>
+      <el-backtop :right="100" :bottom="100" style="background:#9bfee0; color:white" />
     </div>
   </div>
 </template>
