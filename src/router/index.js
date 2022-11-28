@@ -26,6 +26,11 @@ const routes = [
     name: "details",
     component: () => import("../views/Details.vue"),
   },
+  {
+    path: "/draw",
+    name: "draw",
+    component: () => import("../views/Draw.vue"),
+  },
 ];
 
 const router = createRouter({

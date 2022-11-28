@@ -88,6 +88,7 @@ body {
   font-size: 35px;
   float: left;
   margin-top: 5%;
+  color: red;
 }
 .more {
   float: right;
