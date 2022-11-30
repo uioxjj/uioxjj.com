@@ -41,7 +41,7 @@
         </div>
         <div class="diy">
                     <div style="font-size:20px; font-weight: bold;">自定义抽签</div>
-                    <div style="font-size:50px; color:cadetblue" v-for="item in zdy" :key="item">
+                    <div style="font-size:50px; color:cadetblue" v-for="(item,index) in zdy" :key="index">
                       {{ item.value }}
                     </div>
                     <div style="font-weight:bold">
@@ -51,7 +51,7 @@
                       <el-button type="success" @click="start2">开抽😋</el-button>
                     </div>
                     <div>
-                      <el-button type="warning" @click="edit2">自定义内容</el-button>
+                      <el-button type="warning" @click="edit2">添加内容</el-button>
                     </div>
                     <div style="font-weight:bold">
                       请先设置内容喵🐭
@@ -71,7 +71,7 @@ import gsap from 'gsap'
         random:'',
         random2:'',
         isRandom:false,
-        zdy:[1,2,{'value':'1'}]
+        zdy:[{ "value": "1" },{ "value": "2" }]
       }
     },
 
@@ -83,7 +83,7 @@ import gsap from 'gsap'
 
     methods:{
       edit(){
-        ElMessageBox.prompt('请输入数字喵🦝', '', {
+        ElMessageBox.prompt('请输入数字喵🦝(抽签结果不含零)', '', {
         confirmButtonText: 'OK',
         cancelButtonText: '取消',
         inputPattern:/^[1-9]\d*$/,
@@ -99,7 +99,7 @@ import gsap from 'gsap'
       },
 
       edit2(){
-        ElMessageBox.prompt('请输入数字喵🦝', '', {
+        ElMessageBox.prompt('一次添加一个🦊', '', {
         confirmButtonText: 'OK',
         cancelButtonText: '取消',
         })
@@ -110,6 +110,7 @@ import gsap from 'gsap'
         .catch(() => {
         })
       },
+
       start(){
         if(this.random==''){
           ElMessage({
@@ -118,8 +119,34 @@ import gsap from 'gsap'
           })
           return
         }
+        if(this.random==1){
+          ElMessage({
+            message:'1的话那就只有1了喵',
+            type:'warning'
+          })
+          return
+        }
         this.number=Math.ceil(Math.random()*this.random) 
         setTimeout(this.isRandom=true,1000)
+      },
+
+      start2(){
+        if(this.zdy.length==0 ){
+          ElMessage({
+            message:'还没输入内容喵！',
+            type:'warning'
+          })
+          return
+        }
+        if(this.zdy.length==1){
+          ElMessage({
+            message:'1个怎么抽，黑幕😶',
+            type:'warning'
+          })
+          return
+        }
+        this.random2=Math.ceil(Math.random()*this.zdy.length)
+
       }
     }
   }
