@@ -20,24 +20,126 @@
 			  }
 			</css-doodle>
         </div>
-        <div class="emoji">
-            <span>抽签哦😎</span>
-            <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-                 <el-tab-pane label="数字" name="first">User</el-tab-pane>
-                 <el-tab-pane label="自定义添加" name="second">Config</el-tab-pane>
-            </el-tabs>
+        <div class="shuzi">
+                    <div style="font-size:20px; font-weight: bold;">数字抽签</div>
+                    <div style="font-size:50px; color:cadetblue; margin-top:10%">
+                      {{ tweened.toFixed(0) }}
+                    </div>
+                    <div style="font-weight:bold">
+                      <span v-if="isRandom">恭喜这个数数😸</span>
+                      <span v-else >会是多少呢🙂</span>
+                    </div>
+                    <div style="margin-top:10%">
+                      <el-button type="success" @click="start">开抽😋</el-button>
+                    </div>
+                    <div style="margin-top:10%">
+                      <el-button type="warning" @click="edit">设置数字</el-button>
+                    </div>
+                    <div style="font-weight:bold">
+                      请先设置数字喵🐹
+                    </div>
+        </div>
+        <div class="diy">
+                    <div style="font-size:20px; font-weight: bold;">自定义抽签</div>
+                    <div style="font-size:50px; color:cadetblue" v-for="item in zdy" :key="item">
+                      {{ item.value }}
+                    </div>
+                    <div style="font-weight:bold">
+                      会是哪个呢🙂
+                    </div>
+                    <div>
+                      <el-button type="success" @click="start2">开抽😋</el-button>
+                    </div>
+                    <div>
+                      <el-button type="warning" @click="edit2">自定义内容</el-button>
+                    </div>
+                    <div style="font-weight:bold">
+                      请先设置内容喵🐭
+                    </div>
         </div>
     </div>
 </template>
 
 <script>
+import { ElMessage, ElMessageBox } from 'element-plus'
+import gsap from 'gsap'
+  export default{
+    data(){
+      return{
+        number:'',
+        tweened:0,
+        random:'',
+        random2:'',
+        isRandom:false,
+        zdy:[1,2,{'value':'1'}]
+      }
+    },
 
+    watch: {
+      number(n) {
+      gsap.to(this, { duration: 0.5, tweened: Number(n) || 0 })
+    }
+    },
+
+    methods:{
+      edit(){
+        ElMessageBox.prompt('请输入数字喵🦝', '', {
+        confirmButtonText: 'OK',
+        cancelButtonText: '取消',
+        inputPattern:/^[1-9]\d*$/,
+        inputErrorMessage: '要大于0整数哦',
+        })
+        .then(({ value }) => {
+        this.number=value
+        this.random=value
+        this.isRandom=false
+        })
+        .catch(() => {
+        })
+      },
+
+      edit2(){
+        ElMessageBox.prompt('请输入数字喵🦝', '', {
+        confirmButtonText: 'OK',
+        cancelButtonText: '取消',
+        })
+        .then(({ value }) => {
+        this.zdy.push({value})
+        this.isRandom=false
+        })
+        .catch(() => {
+        })
+      },
+      start(){
+        if(this.random==''){
+          ElMessage({
+            message:'还没输入数字喵！',
+            type:'warning'
+          })
+          return
+        }
+        this.number=Math.ceil(Math.random()*this.random) 
+        setTimeout(this.isRandom=true,1000)
+      }
+    }
+  }
 </script>
 
 <style>
-.emoji {
+.shuzi {
+  width: 20%;
   position: absolute;
-  top: 10%;
-  left: 40%;
+  top: 20%;
+  left: 20%;
+  background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+  box-shadow: 2px 2px 10px #909090;
+}
+.diy {
+  width: 20%;
+  position: absolute;
+  top: 20%;
+  right: 20%;
+  background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+  box-shadow: 2px 2px 10px #909090;
 }
 </style>
